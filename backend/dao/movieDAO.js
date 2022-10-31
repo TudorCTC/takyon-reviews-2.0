@@ -98,16 +98,27 @@ export default class MovieDAO {
 
     static async addMovie(movieTitle, userRating) {
         
+        var movieDoc = {};
         let omdbData = axios.get(`http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=${movieTitle}`)
             .then((response) => {
                 console.log(response.data);
-                /*try {
-                    const movieDoc = {
-                        title: response.title
+                try {
+                    movieDoc = {
+                        title: response.data.Title,
+                        year: response.data.Year,
+                        runtime: response.data.Runtime,
+                        director: response.data.Director,
+                        genres: response.data.Genre.split(", ", 4),
+                        imdb_rating: parseFloat(response.data.imdbRating),
+                        my_rating: userRating,
+                        poster: response.data.Poster,
                     }
-                } catch (e) {
 
-                }*/
+                    return movies.insertOne(movieDoc);
+                } catch (e) {
+                    console.log(`Unable to add movie to the database, ${e}`);
+                    return {error: e};
+                }
             })
             .catch((e) => {
                 console.error(`Unable to contact OMDB API, ${e}`);

@@ -60,7 +60,7 @@ export default class MovieController {
                 rating
             );
 
-            res.json({status : "success"});
+            res.json({status: "success"});
         } catch (e) {
             console.log(`api, ${e}`);
             res.status(500).json({error: e});
