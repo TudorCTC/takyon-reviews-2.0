@@ -20,7 +20,7 @@ export default class ArticleDAO {
         page = 0,
         articlesPerPage = 20,
     } = {}){
-        let cursor = articleList;
+        let cursor = articleList.find();
         const displayCursor = cursor.limit(articlesPerPage).skip(page * articlesPerPage);
 
         try {
@@ -35,10 +35,10 @@ export default class ArticleDAO {
     }
 
     static async getArticleByTitle(title) {
-        let query = {$text: {$search: title}};
+        let query = {"title": title};
 
         try {
-            return await articleList.find(query);
+            return await articleList.find(query).toArray();
         } catch (e) {
             console.log(`Unable to retrieve specified article, ${e}`);
             throw e;

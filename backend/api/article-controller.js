@@ -11,7 +11,6 @@ export default class ArticleController {
             let response = {
                 articles: articles,
                 page: page,
-                filters: filters,
                 entries_per_page: articlesPerPage,
                 total_results: totalNumArticles,
             };
@@ -23,15 +22,16 @@ export default class ArticleController {
     }
 
     static async apiGetArticleByTitle(req, res, next) {
-        const articleTitle = req.params.articleTitle || {};
+        const articleTitle = req.params.articleTitle.replace(/-/g, ' ') || {};
 
         try {
-            let article = await ArticleDAO.getArticleByTitle(title);
+            let article = await ArticleDAO.getArticleByTitle(articleTitle);
             if (!article) {
                 res.status(500).json({error: "Not Found"});
                 return;
             }
-            res.json(article);
+            console.log(article[0]);
+            res.json(article[0]);
         } catch (e) {
             console.log(`api, ${e}`);
             res.status(500).json({error : e});

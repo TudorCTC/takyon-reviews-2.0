@@ -24,6 +24,6 @@ router.route("/articles").post(ArticleController.apiPostArticle);
 
 // get comments
 router.route("/comments/:postId").get(CommentController.apiGetCommentsByPostId);
-router.route("/comments/:postId").post(CommentController.apiPostComment);
+router.route("/comments").post(CommentController.apiPostComment);
 
 export default router

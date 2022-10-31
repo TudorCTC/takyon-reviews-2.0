@@ -24,8 +24,10 @@ export default class CommentController {
 
     static async apiGetCommentsByPostId(req, res, next) {
         let postId = req.params.postId || {};
+        console.log(postId);
         try {
             let comments = await CommentDAO.getCommentsByPostId(postId);
+            console.log(comments);
             res.json(comments);
         } catch (e) {
             console.log(`api, ${e}`);

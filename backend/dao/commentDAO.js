@@ -17,10 +17,10 @@ export default class CommentDAO {
     }
 
     static async getCommentsByPostId(postId) {
-        let query = {post_id: new ObjectId(postId)};
+        let query = {post_id: postId};
 
         try {
-            return await comments.find(query);
+            return await comments.find(query).toArray();
         } catch (e) {
             console.error(`Unable to retrieve comments for the specified post, ${e}`);
             throw e;

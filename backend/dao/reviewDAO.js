@@ -20,7 +20,7 @@ export default class ReviewDAO {
         page = 0,
         reviewsPerPage = 0,
     } = {}) {
-        let cursor = reviewList;
+        let cursor = await reviewList.find();
         const displayCursor = cursor.limit(reviewsPerPage).skip(page * reviewsPerPage);
 
         try {
@@ -35,10 +35,10 @@ export default class ReviewDAO {
     }
 
     static async getReviewByTitle(movieTitle) {
-        let query = {$text: {$search: movieTitle}};
+        let query = {"movie_title" : movieTitle};
 
         try {
-            return await reviewList.find(query);
+            return await reviewList.find(query).toArray();
         } catch (e) {
             console.log(`Unable to retrieve specified review, ${e}`);
             throw e;
